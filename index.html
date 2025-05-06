@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cosmic Clicker</title>
+  <link rel="stylesheet" href="index.css" />
+  <script src="index.js"></script>
+</head>
+
+<body>
+  <div class="stars-bg" id="starsBg"></div>
+  <div class="container">
+    <header>
+      <h1>Cosmic Clicker</h1>
+      <div>
+        <div class="settings-icon" id="settingsButton">⚙️</div>
+      </div>
+    </header>
+    <div class="main-panel">
+      <div class="resources">
+        <div class="resource energy">
+          <div class="resource-name">
+            <div class="resource-icon">✨</div>
+            <div>Cosmic Energy</div>
+          </div>
+          <div>
+            <div class="resource-value" id="energyValue">0</div>
+            <div class="per-second" id="energyPerSecond">0 per second</div>
+          </div>
+        </div>
+        <div class="resource stardust" id="stardustResource" style="display: none">
+          <div class="resource-name">
+            <div class="resource-icon">⭐</div>
+            <div>Stardust</div>
+          </div>
+          <div>
+            <div class="resource-value" id="stardustValue">0</div>
+            <div class="per-second" id="stardustPerSecond">0 per second</div>
+          </div>
+        </div>
+        <div class="resource prestige" id="prestigeResource" style="display: none">
+          <div class="resource-name">
+            <div class="resource-icon">🌠</div>
+            <div>Celestial Power</div>
+          </div>
+          <div class="resource-value" id="prestigeValue">0</div>
+        </div>
+      </div>
+      <div class="star-system">
+        <div class="star"></div>
+
+        <div class="orbit-container planet-1-container">
+          <div class="planet planet-1"></div>
+        </div>
+
+        <div class="orbit-container planet-2-container">
+          <div class="planet planet-2"></div>
+        </div>
+
+        <div class="orbit-container planet-3-container">
+          <div class="planet planet-3"></div>
+        </div>
+      </div>
+      <div class="clicker-area">
+        <button class="clicker-button" id="clickerButton">Collect</button>
+        <div>
+          Click to collect
+          <span class="click-value" id="clickValue">1</span> cosmic energy
+        </div>
+        <div>
+          Automatically collecting
+          <span class="auto-click-value" id="autoClickValue">0</span> cosmic
+          energy per second
+        </div>
+      </div>
+    </div>
+    <div class="side-panel">
+      <div class="tabs">
+        <div class="tab active" data-tab="upgrades">Upgrades</div>
+        <div class="tab" data-tab="research">Research</div>
+        <div class="tab" data-tab="prestige" id="ascensionTab" style="display: none">
+          Ascension
+        </div>
+        <div class="tab" data-tab="achievements">Achievements</div>
+      </div>
+      <div class="tab-content active" id="upgradesTab">
+        <div class="panel-subtitle">
+          Purchase upgrades to increase your energy production.
+        </div>
+        <div id="upgradesContainer"></div>
+      </div>
+      <div class="tab-content" id="researchTab">
+        <div class="panel-subtitle">
+          Research new technologies to unlock special abilities and bonuses.
+          Research is permanent and unlocks new features or boosts.
+        </div>
+        <div id="researchInProgressSection"></div>
+        <div id="availableResearchSection"></div>
+        <div id="completedResearchSection"></div>
+      </div>
+      <div class="tab-content" id="prestigeTab">
+        <div class="panel-subtitle">
+          Ascend to a higher plane of existence and gain powerful bonuses.
+        </div>
+        <div class="prestige-info">
+          You need at least
+          <span class="prestige-threshold">25,000</span> cosmic energy to
+          ascend. <br /><br />
+          Current reward:
+          <span class="prestige-reward" id="prestigeReward">0</span> Celestial
+          Power
+          <br />
+          Each Celestial Power gives you a 10% permanent boost to all energy
+          production.
+        </div>
+        <button class="prestige-button" id="prestigeButton" disabled>
+          Ascend
+        </button>
+      </div>
+      <div class="tab-content" id="achievementsTab">
+        <div class="panel-subtitle">
+          Complete achievements to earn permanent bonuses.
+        </div>
+        <div class="achievements-grid" id="achievementsContainer"></div>
+      </div>
+      <div class="tab-content" id="artifactsTab">
+        <div class="panel-subtitle">
+          Discover and equip powerful artifacts to enhance your production.
+        </div>
+        <div id="artifactChancesPanel"></div>
+        <button class="modal-button" id="discoverArtifactButton" style="margin-top: 10px; width: 100%" disabled>
+          Discover Artifact (100 Stardust)
+        </button>
+        <div class="artifacts-container" id="artifactsContainer"></div>
+        <div class="panel-subtitle" style="margin-top: 20px">
+          Equipped Artifacts:
+        </div>
+        <div class="equipped-artifacts" id="equippedArtifacts"></div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="settingsModal">
+    <div class="modal-content">
+      <button class="close-modal" id="closeSettings">&times;</button>
+      <h2 class="modal-title">Settings</h2>
+      <p>Game version: 1.2</p>
+      <div class="button-row">
+        <button class="modal-button danger" id="resetButton">
+          Reset Game
+        </button>
+        <button class="modal-button" id="saveButton">Save Game</button>
+        <button class="modal-button" id="exportSaveButton">
+          Export Save
+        </button>
+        <button class="modal-button" id="importSaveButton">
+          Import Save
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="resetConfirmModal">
+    <div class="modal-content">
+      <h2 class="modal-title">Reset Game?</h2>
+      <p>
+        Are you sure you want to reset all progress? This cannot be undone.
+      </p>
+      <div class="button-row">
+        <button class="modal-button" id="cancelResetButton">Cancel</button>
+        <button class="modal-button danger" id="confirmResetButton">
+          Yes, Reset
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="notification" id="notification">
+    <div class="notification-title" id="notificationTitle">Title</div>
+    <div class="notification-message" id="notificationMessage">Message</div>
+  </div>
+  <div class="modal" id="importModal">
+    <div class="modal-content">
+      <button class="close-modal" id="closeImportModal">&times;</button>
+      <h2 class="modal-title">Import Save</h2>
+      <textarea id="importBase64Input" style="width: 100%; height: 100px; resize: vertical"
+        placeholder="Paste your base64 save string here..."></textarea>
+      <div class="button-row">
+        <button class="modal-button" id="importBase64Button">Import</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="exportModal">
+    <div class="modal-content">
+      <button class="close-modal" id="closeExportModal">&times;</button>
+      <h2 class="modal-title">Export Save</h2>
+      <textarea id="exportBase64Output" style="width: 100%; height: 100px; resize: vertical" readonly></textarea>
+      <div class="button-row">
+        <button class="modal-button" id="copyExportBase64Button">Copy</button>
+        <button class="modal-button" id="downloadExportBase64Button">
+          Download as File
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
